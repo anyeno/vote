@@ -65,7 +65,7 @@ create table vote_item
     channel_id  int          not null,
     create_time datetime     null,
     end_time    datetime     null,
-    is_ended    tinyint(1)   null,
+    is_paused    tinyint(1)   null,
     user_id     int          not null,
     constraint vote_item_id_uindex
         unique (id)

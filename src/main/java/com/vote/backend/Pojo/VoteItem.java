@@ -18,6 +18,6 @@ public class VoteItem {
     private LocalDateTime createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
-    private boolean isEnded;
+    private boolean isPaused;
     private Integer userId; //发布者id
 }

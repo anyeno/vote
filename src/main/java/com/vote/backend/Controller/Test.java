@@ -1,14 +1,19 @@
 package com.vote.backend.Controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.vote.backend.Common.Result.CommonResult;
 import com.vote.backend.Mapper.*;
-import com.vote.backend.Pojo.Channel;
-import com.vote.backend.Pojo.Options;
-import com.vote.backend.Pojo.VoteItem;
+import com.vote.backend.Model.Param.UserParam;
+import com.vote.backend.Model.User;
+import com.vote.backend.Service.UsrAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+
 
 
 @RestController
@@ -21,22 +26,29 @@ public class Test {
 
     @Autowired
     OptionsMapper optionsMapper;
-    @RequestMapping("/options/")
-    public List<Options> getOptions() {
-        return optionsMapper.selectList(null);
-    }
 
     @Autowired
-    VoteItemMapper voteItemMapper;
-    @RequestMapping("/vote/")
-    public List<VoteItem> getString() {
-        return voteItemMapper.selectList(null);
-    }
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    ChannelMapper channelMapper;
-    @RequestMapping("/ch/")
-    public List<Channel> getCha() {
-        return channelMapper.selectList(null);
+    UsrAdminService usrAdminService;
+
+    @GetMapping("/hello")
+    @PreAuthorize("hasAuthority('user')")
+    public String hello(){
+        return "hello_111";
     }
+
+////    @PostMapping("/inputTest")
+//    public List<User> input(@RequestBody User user){
+//        User get=new User();
+//        get.setName(user.getName());
+//        get.setPassword(user.getPassword());
+//
+//    }
+
+
+
+
 }
+

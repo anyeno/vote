@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加投票频道</title>
+    <!--引入CSS代码-->
+    <link rel="stylesheet" type="text/css" href="../scr/css/index-2.css">
+</head>
+
+<body>
+<div class="rg_layout">
+    <div class="wel">
+        <h1>新频道正在到来的路上......</h1>
+    </div>
+    <div class="rg_left">
+        <p>新投票频道创建</p>
+        <p>NEW CHANNEL</p>
+    </div>
+    <div class="rg_center">
+        <div class="rg_form">
+            <form action="#" method="post">
+                <table>
+                    <tr><!--label 标签的作用是当点击文字也会跳到文本输出框-->
+                        <!--for属性与ID属性对应规定 label 绑定到哪个表单元素。-->
+                        <td class="td_left"><label for="channel">新频道名</label> </td>
+                        <td class="td_right"><input type="text"  name="channel" id="channel" placeholder="频道名称"> </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <td class="td_left">
+                            <input type="submit" value="创建" id="btn_sub">
+                            <input type="reset" value="重置" id="btn_sub">
+                        </td>
+                    </tr>
+
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="rg_right">
+        <!--需要链接-->
+        <p>立即新建投票？<a href="管理新添投票.html">前往新建</a></p>
+        <br>
+        <p class="back">返回 <a href="用户投票频道.html">频道列表</a>
+    </div>
+</div>
+</body>
+</html>

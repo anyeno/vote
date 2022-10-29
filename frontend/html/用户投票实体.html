@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,
+	minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>投票选择界面</title>
+	<!--引入CSS代码-->
+	<link rel="stylesheet" type="text/css" href="../scr/css/index-3.css"/>
+	<!--引入Js代码-->
+	<script src="../scr/index.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <div class="hat">
+        <!--置顶装饰-->
+        <img src="../images/wuzi-L.jpg" alt="来投票吧" title="投票在下方啦 6-\>o/-9" width="240" height="160">
+        <img src="../images/投票置顶.jpeg" alt="来投票吧" title="投票在下方啦 -\>o/-" width="800" height="160">
+        <img src="../images/wuzi-R.jpg" alt="来投票吧" title="投票在下方啦 6-\>o/-9" width="240" height="160">
+        <div class="pop">
+            <div  id="partfir">
+                <a href="./管理增添频道.html">添加新频道</a>
+            </div>
+            <div  id="partsec">
+                <a href="./管理增添频道.html">添加新投票</a>
+            </div>
+        </div>
+    </div>
+	<div class="lunbo">
+		<div class="content">
+            <div id="votes">
+
+            </div>
+			<div id="btn-left"><</div>
+			<div id="btn-right">></div>
+			<ul id="circle">
+			</ul>
+			</div>
+		</div>
+	</body>
+
+    <script>
+        let nvotes = 0;
+        let data = [];
+        function getVotes() {
+            $.ajax({
+                url: "http://127.0.0.1:3000/free/getAllVote",
+                type: "GET",
+                data:{
+                    id: 2
+                },
+                success(resp) {
+                    console.log(resp);
+                    data = resp.data;
+                    nvotes = data.length;
+                    console.log("nvotes" + nvotes);
+                    votes_append();
+                }
+            })
+        }
+        getVotes();
+        function votes_append() {
+            let item_per_page = 5;
+            let num_pages = parseInt(nvotes / item_per_page + 1);
+            console.log("num_pages" + num_pages);
+            for (let i = 0; i < num_pages; i++) { 
+                let item = ``;
+                for(let j = 0; j < Math.min(item_per_page, nvotes - i*item_per_page); j++) {
+                        item += `<tr>
+                            <td>${j+1}</td>
+                            <td>${data[i*item_per_page + j]["name"]}</td>
+                            <td >
+                                <button  type="button" style="background-color: coral;">删除</button>
+                                <button  type="button" style="background-color: darkred;">进入投票</button>
+                                <button  type="button" style="background-color: lightseagreen;">查看</button>
+                            </td>
+                        </tr>`
+                }
+                $("#votes").append(
+                    `<ul id="item">
+                        <li class="item">
+                            <table class="tables" id="A" border="1">
+                                <caption id="x"><strong>投票主题列表</strong></caption>
+                                <thead>
+                                    <tr id="y">
+                                        <th>频道编号</th>
+                                        <th>投票名</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="z">
+                                        ${item}   
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>`
+                )
+                $("#circle").append(`<li class="circle"></li>`)
+            }
+        }
+    </script>
+</html>

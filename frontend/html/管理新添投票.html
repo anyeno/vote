@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>新增投票</title>
+    <link rel="stylesheet"href="..\scr\css\新添.css" />
+</head>
+<body>
+    <div id="container">
+        <h1>新增投票</h1>
+        <hr />
+        <form method="post" action="url" autocomplete="on">
+            <label>
+                所属频道：
+                <input type="text" placeholder="请输入所属频道名" id="Channel" required />
+            </label>
+            <br />
+            <label>
+                投票名称：
+                <input type="text" placeholder="请输入新增投票的名称" id="Vote" required />
+            </label>
+            <br />
+            <label>
+                截止时间：
+                <input type="text" id="Time" required />
+            </label>
+            <br />
+            <label>
+                选项设置：
+                <br/>
+                <input type="text" id="v1"/>
+            </label>
+            <br/>
+            <label>
+                <input type="text" id="v2"/>
+            </label>
+            <br/>
+            <label>       
+                <input type="text" id="v3"/>
+            </label>
+            <br/>
+            <label>      
+                <input type="text" id="v4"/>
+            </label>
+            <br/>
+            <input type="submit" id="btn1" value="发布" />
+            <input type="reset" id="btn2" value="重置" />
+        </form>
+    </div>
+</body>
+</html>

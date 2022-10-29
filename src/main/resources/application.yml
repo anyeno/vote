@@ -1,0 +1,6 @@
+# 自行写入jwt配置来手动注入
+jwt:
+  tokenHeader: Authorization #jwt请求头
+  secret: hhsdn #jwt密匙
+  expiration: 14400000 #jwt时限(1000*60*60*4)ms
+  tokenHead: Bearer

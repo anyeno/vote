@@ -7,6 +7,7 @@ import com.vote.backend.Model.Param.UserParam;
 import com.vote.backend.Model.User;
 import com.vote.backend.Service.UsrAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +34,9 @@ public class Test {
     UsrAdminService usrAdminService;
 
     @GetMapping("/hello")
+    @PreAuthorize("hasAuthority('user')")
     public String hello(){
-        return "hello";
+        return "hello_111";
     }
 
 ////    @PostMapping("/inputTest")

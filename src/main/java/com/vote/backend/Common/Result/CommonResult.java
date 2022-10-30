@@ -19,7 +19,7 @@ public class CommonResult<T> {
     @JsonView(User.UserSimpleView.class)
     private T data;
 
-    private CommonResult(long code,String message,T data){
+    public CommonResult(long code,String message,T data){
         this.code=code;this.message=message;this.data=data;
     }
 

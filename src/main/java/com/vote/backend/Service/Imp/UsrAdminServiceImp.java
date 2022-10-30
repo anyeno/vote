@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.vote.backend.Common.Result.CommonResult;
 import com.vote.backend.Common.Utils.JwtUtil;
 import com.vote.backend.Common.Utils.RedisCache;
-import com.vote.backend.Mapper.UserMapper;
-import com.vote.backend.Model.LoginUser;
+import com.vote.backend.Mapper.*;
+import com.vote.backend.Model.*;
+import com.vote.backend.Model.Param.OptionParam;
 import com.vote.backend.Model.Param.UserParam;
-import com.vote.backend.Model.User;
+import com.vote.backend.Model.Param.VoteParam;
 import com.vote.backend.Service.UsrAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +28,14 @@ import java.util.Objects;
 public class UsrAdminServiceImp implements UsrAdminService {
     @Autowired
     UserMapper userMapper;
-
+    @Autowired
+    ChannelMapper channelMapper;
+    @Autowired
+    VoteItemMapper voteItemMapper;
+    @Autowired
+    OptionsMapper optionsMapper;
+    @Autowired
+    RecordMapper recordMapper;
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -38,6 +46,11 @@ public class UsrAdminServiceImp implements UsrAdminService {
     JwtUtil jwtUtil;
     @Autowired
     RedisCache redisCache;
+
+
+
+
+
 
 
 //
@@ -110,10 +123,112 @@ public class UsrAdminServiceImp implements UsrAdminService {
 
     }
 
+
+
+
+    @Override
+    public CommonResult vote(OptionParam optionParam,String token) {
+
+
+        Options options=selectOptionsByName(optionParam);
+          if(Objects.isNull(options)){
+              return CommonResult.Failed("该选项不存在",null);
+          }
+        Integer userid=null;
+        try{
+            //String转型
+            userid=Integer.parseInt(jwtUtil.getId(token));
+        }
+        catch (Exception e){
+        }
+
+        Integer id=ensureVote(options.getVoteItemId(),userid);
+        if(!Objects.isNull(id)){
+            return CommonResult.Failed("用户已经在此投票中进行过投票");
+        }
+        Record record=new Record();
+        record.setVoteId(options.getVoteItemId());
+        record.setUserId(userid);
+        recordMapper.insert(record);
+
+        options.setVoteCount(options.getVoteCount()+1);
+        optionsMapper.updateById(options);
+
+        return CommonResult.Success("投票成功",null);
+    }
+
+    @Override
+    public CommonResult vote_back(OptionParam optionParam,String token) {
+        Options options=selectOptionsByName(optionParam);
+        if(Objects.isNull(options)){
+            return CommonResult.Failed("该选项不存在",null);
+        }
+        Integer userid=null;
+        try{
+            //String转型
+            userid=Integer.parseInt(jwtUtil.getId(token));
+        }
+        catch (Exception e){
+        }
+
+        Integer id=ensureVote(options.getVoteItemId(),userid);
+        if(Objects.isNull(id)){
+            return CommonResult.Failed("用户未在此投票中进行过投票");
+        }
+        recordMapper.deleteById(id);
+
+        options.setVoteCount(options.getVoteCount()-1);
+        optionsMapper.updateById(options);
+
+        return CommonResult.Success("撤回投票成功",null);
+
+    }
+
+    public Integer ensureVote(Integer voteId,Integer userId){
+        QueryWrapper<Record>queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("user_id",userId)
+                .eq("vote_id",voteId);
+       Record record= recordMapper.selectOne(queryWrapper);
+       if(Objects.isNull(record)){
+           return null;
+       }
+       return record.getId();
+    }
+
+
+
+    /**字段类转为Pojo方法集*/
     public User selectUserByName(String name){
-        QueryWrapper<User>queryWrapper=new QueryWrapper<>();
+        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("name",name);
         return userMapper.selectOne(queryWrapper);
+    }
+    public Channel selectChannelByName(String name){
+        QueryWrapper<Channel> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("name",name);
+        return channelMapper.selectOne(queryWrapper);
+    }
+    public VoteItem selectVoteItemByName(VoteParam voteParam){
+        Channel channel=selectChannelByName(voteParam.getChannelName());
+        if(Objects.isNull(channel)){
+            return null;
+        }
+        QueryWrapper<VoteItem> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("name",voteParam.getVoteName())
+                .eq("channel_id",channel.getId());
+        return voteItemMapper.selectOne(queryWrapper);
+    }
+
+    public Options selectOptionsByName(OptionParam optionParam){
+        VoteItem voteItem=selectVoteItemByName(new VoteParam(optionParam.getVoteName(),optionParam.getChannelName(),null));
+        if(Objects.isNull(voteItem)){
+            return null;
+        }
+        QueryWrapper<Options>queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("name",optionParam.getOptionName())
+                .eq("channel_id",voteItem.getChannelId())
+                .eq("vote_item_id",voteItem.getId());
+        return optionsMapper.selectOne(queryWrapper);
     }
 
 }

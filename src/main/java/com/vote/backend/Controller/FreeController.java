@@ -72,7 +72,7 @@ public class FreeController {
     public CommonResult getAllOptions(@RequestParam(value = "channel_id")int channel_id
             , @RequestParam(value = "vote_id")int vote_id) {
         QueryWrapper<Options> optionsQueryWrapper = new QueryWrapper<>();
-        optionsQueryWrapper.eq("channel_id", channel_id)//mole
+        optionsQueryWrapper
                 .eq("vote_item_id", vote_id);
         return CommonResult.Success("获取投票选项列表成功", optionsMapper.selectList(optionsQueryWrapper));
     }

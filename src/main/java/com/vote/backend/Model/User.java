@@ -24,7 +24,7 @@ public class User {
     private String password;
     @JsonView(UserSimpleView.class)
     private boolean isAdmin;
-
+    /**id从Param到User都为空由数据库作为主键自动填充*/
     public User(UserParam p){
         this.setPassword(p.getPassword());
         this.setName(p.getUsername());

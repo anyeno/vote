@@ -3,6 +3,7 @@ package com.vote.backend.Model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.vote.backend.Model.Param.VoteParam;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,7 @@ public class VoteItem {
     private LocalDateTime endTime;
     private boolean isPaused;
     private Integer userId; //发布者id
+
+
+
 }

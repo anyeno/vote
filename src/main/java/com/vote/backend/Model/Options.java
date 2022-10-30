@@ -14,5 +14,6 @@ public class Options {
     private Integer id;
     private String name;
     private Integer voteItemId;
+    private Integer channelId;
     private Integer voteCount = 0;
 }

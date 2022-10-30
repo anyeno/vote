@@ -59,8 +59,8 @@ public class AdminServiceImp implements AdminService {
     @Override
     public CommonResult creatChannel(String name) {
         Channel channel=usrAdminServiceImp.selectChannelByName(name);
-       if(Objects.isNull(channel)){
-           return CommonResult.Failed("频道不存在无需删除");
+       if(!Objects.isNull(channel)){
+           return CommonResult.Failed("频道已经存在");
        }
         Channel newChannel=new Channel();
        newChannel.setName(name);

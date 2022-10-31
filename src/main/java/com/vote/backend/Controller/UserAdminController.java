@@ -18,9 +18,9 @@ public class UserAdminController {
         return usrAdminService.logout();
     }
 
-    @PostMapping("/vote")
-    public CommonResult vote(@RequestHeader("token") String token,@RequestBody OptionParam optionParam){
-        return usrAdminService.vote(optionParam,token);
+    @GetMapping("/vote")
+    public CommonResult vote(@RequestHeader("token") String token,@RequestParam(value = "id")int id){
+        return usrAdminService.vote(id,token);
     }
     @PostMapping("/vote_back")
     public CommonResult vote_back(@RequestHeader("token") String token,@RequestBody OptionParam optionParam){

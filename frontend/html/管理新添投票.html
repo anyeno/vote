@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>新增投票</title>
+    <link rel="stylesheet"href="..\scr\css\新添.css" />
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <h1>新增投票</h1>
+        <hr />
+        <label>
+            所属频道：
+            <input type="text" placeholder="请输入所属频道名" id="Channel" required />
+        </label>
+        <br />
+        <label>
+            投票名称：
+            <input type="text" placeholder="请输入新增投票的名称" id="Vote" required />
+        </label>
+        <br />
+        <label>
+            截止时间：
+            <input type="text" id="Time" />
+        </label>
+        <br />
+        <label>
+            选项设置：
+            <br/>
+            <input type="text" id="v1"/>
+        </label>
+        <br/>
+        <label>
+            <input type="text" id="v2"/>
+        </label>
+        <br/>
+        <label>       
+            <input type="text" id="v3"/>
+        </label>
+        <br/>
+        <label>      
+            <input type="text" id="v4"/>
+        </label>
+        <br/>
+        <input type="submit" id="btn1" value="发布" />
+    </div>
+</body>
+
+<script>
+    $("#btn1").click(function(){
+        let vote_name = $("#Vote").val().toString();
+        let channel_name = $("#Channel").val().toString();
+        let during = $("#Time").val();
+        console.log("time == " + during);
+        let data ={};
+        data["voteName"] = vote_name;
+        console.log("channelName == " + channel_name);
+        data["channelName"] = channel_name;
+        data["during"] = during;
+        let token = window.localStorage.getItem("token");
+        $.ajax({
+            url: "http://127.0.0.1:3000/admin/createVote",
+            headers:{
+                    'Content-Type':'application/json;charset=utf8',
+                    "token": token
+            },
+            type: "POST",
+            data: JSON.stringify(data),
+            success(resp) {
+                console.log(resp)
+                if(resp.message == "创建投票成功"){
+                    create_option();
+                }
+            },
+            error(){
+                console.log("error")
+            }
+        }) 
+
+        function create_option(){
+            let option_name = []
+            let flag = 0
+            for(let i = 1; i <= 4; i ++) {
+                option_name[i] = $("#v"+i.toString()).val().toString();
+                console.log(option_name[i]);
+                let option_data = {}
+                option_data["channelName"] = channel_name;
+                option_data["voteName"] = vote_name;
+                option_data["optionName"] = option_name[i]
+                $.ajax({
+                    url: "http://127.0.0.1:3000/admin/createOption",
+                    type: "POST",
+                    headers:{
+                    'Content-Type':'application/json;charset=utf8',
+                    "token": token
+                    },
+                    data: JSON.stringify(option_data),
+                    success(resp){
+                        console.log(resp)
+                    },
+                    error(){
+                        console.log("error");
+                        flag = 1
+                    }
+
+                })
+            }
+            // if(flag == 0)
+            //     window.history.go(-1); //刷新上一页
+        }
+    })
+</script>
+</html>

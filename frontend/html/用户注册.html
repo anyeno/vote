@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新用户注册</title>
+    <!--引入格式文件-->
+    <link rel="stylesheet" href="../scr/css/index-1.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+    
+</head>
+
+<body>
+<div class="rg_layout">
+    <div class="wel">
+        <h1>欢迎加入我们</h1>
+    </div>
+    <div class="rg_left">
+        <p>新用户注册</p>
+        <p>USER REGISTER</p>
+    </div>
+    <div class="rg_center">
+        <div class="rg_form">
+            <!-- <form> -->
+                <table>
+                    <tr><!--label 标签的作用是当点击文字也会跳到文本输出框-->
+                        <!--for属性与ID属性对应规定 label 绑定到哪个表单元素。-->
+                        <td class="td_left"><label for="username">用户名</label> </td>
+                        <td class="td_right"><input type="text"  name="username" id="username" placeholder="由字母, 数字, 下划线组成的4-16位字符"> </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="password">密码</label> </td>
+                        <td class="td_right"><input type="password" name="password" id="password" placeholder="密码长度为6-12个字符"> </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="checkword">重复密码</label> </td>
+                        <td class="td_right"><input type="password" name="checkword" id="checkword" placeholder="请确认密码"> </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <td class="td_left">
+                            <input type="submit" value="注册" id="btn_sub" >
+                            <input type="reset" value="重置" id="btn_sub" class="btn_reset">
+                        </td>
+                        <td><p id="error_message" style="color: rgb(146, 13, 13);"></p></td>
+                    </tr>
+                    
+
+                </table>
+            <!-- </form> -->
+        </div>
+    </div>
+    <div class="rg_right">
+        <!--需要链接-->
+        <p>已有账号？<a href="../html/登录界面.html">立即登录</a></p>
+    </div>
+</div>
+
+
+<script>    
+    
+    let error_msg = "";
+
+    $("#btn_sub").click(function() {
+        let username = $("#username").val().toString();
+        let password = $("#password").val().toString();;
+        let checkword = $("#checkword").val().toString();
+        let data = {}
+        data["username"] = username
+        data["password"] = password
+        data["repeat"] = checkword
+
+        $.ajax({
+            url: "http://127.0.0.1:3000/free/register",
+            type: "POST",
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(data),
+            
+            success(resp) {
+                console.log(resp)
+                if (resp.message === "注册成功") {
+                console.log("register success");
+                location.href = "用户登录.html";
+                } else{
+                    console.log(resp.message);
+                    $("#error_message").text(resp.message);
+                }
+                },
+        });
+    })
+
+    $(".btn_reset").click(function() {
+        $("#username").val("")
+        $("#password").val("")
+        $("#checkword").val("")
+        $("#error_message").val("")
+    })
+
+
+</script>
+</body>
+</html>

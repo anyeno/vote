@@ -15,7 +15,7 @@ public interface AdminService {
 
     public CommonResult creatVote(VoteParam voteParam);
 
-    public CommonResult deleteVote(VoteParam voteParam);
+    public CommonResult deleteVote(Integer id);
 
     public CommonResult pauseVote(VoteParam voteParam);
 

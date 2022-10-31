@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投票系统</title>
+    <style>
+        .header{
+            background:#ccc;
+            padding:0px;
+            text-align:center;
+        
+        }
+        .nav{
+            background:#000;
+            text-align:center;
+        }
+        .nav a{
+            font-size: 30px;
+            padding:20px 20px;
+            display: inline-block;
+            color:antiquewhite;
+            
+        }
+        
+        .nav a:hover{
+            background:#bbb;
+            color:#000;
+           
+        }
+       
+      
+        .lside{
+            width:350px;
+            float:left;
+             /*左边栏边距*/
+             text-align:center;
+        }
+        .rside{
+            width:300px;
+            float:right;
+             /*右边栏边距*/
+             text-align:center;
+
+        }
+        .content{
+            margin:0px 200px;
+            text-align:center;
+            color:coral;
+    
+            /*中间栏加边距*/
+        }
+        .lside,.rside,.content{
+            padding:10px;
+             /*导航栏和内容栏的间距*/
+        }
+        .footer{
+            padding:5px;
+            background:#ccc;
+            color:deeppink;
+            text-align:center;/*底部*/
+        }
+    
+    </style>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="main">
+    
+    <div class="header">
+        <!-- <img width="1455" hight="60" src="..\images\图片\IMG_20221027_181832.png" /> -->
+    </div>
+        <div class="nav">
+        <a href="index.html"> 首页</a>
+        <a href="管理新添投票.html"> 新增投票</a>               
+        <a href="用户投票频道.html"> 查看投票频道</a>
+        <span class="login_and_register">
+        <a href="用户登录.html">登录</a>
+        <a href="用户注册.html">注册</a>
+        </span>
+        <span>
+            <a href="" id="logout">  退出 </a>
+        </span>
+    </div>
+    <div class="container">
+        <div class="lside">
+        <h1>·热门投票案例·</h1>
+        <a href="https://www.toutoupiao.com/Vote/56139"target="black"><img width="390" hight="400" src="..\images\图片\IMG_20221027_211150.png" />
+        </a>
+    </div>
+    <div class="rside">
+<h2>·高安全性</h2><br>
+        <a href="管理增添频道.html"><img   width="220" hight="400" src="..\images\图片\IMG_20221027_215304.jpg" /></a>
+    <h4>这个投票平台大众化设计，只要满足条件，人人都可自由投票，投票者信息绝对保密，
+        保障了广大使用者的安全，可以放心大胆的投票 需要实名注册才能投票，避免了恶意刷票行为</h4>
+    </div>
+    <div class="content">
+        <h1>·平台优势·</h1>
+        <p>公平，安全 稳定</p><br>
+        <img width="680" hight="400" src="..\images\图片\_C_L@WMRT7W{_NR~J(})FZL.png" />
+        <h2>·自定义投票规则，操作简单省事</h2>
+        <a href="用户投票频道.html"target="black"><img width="190" hight="400" src="..\images\图片\J988~0~JJC(_9I{`3(~@WIL.png" />
+   
+       
+        <img width="190" hight="400" src="..\images\图片\B]IX8LM]S7ZBSQDK076OX]T.png" />
+        
+        <img width="190" hight="400" src="..\images\图片\ULAG)ABCB4@1O`2K]RW2K(9.png" />
+       
+        </a>
+    
+    </div>
+    </div>
+    <div class="footer"> 
+        <p>
+        使用过程遇到问题可以联系我们.qq群:497649122
+        </p>
+    </div>
+    </div>
+
+    <script>
+        if(window.localStorage.getItem("token") != null) {
+            $(".login_and_register").hide();
+            $("#logout").show();
+        } else {
+            $(".login_and_register").show();
+            $("#logout").hide();
+        }
+        $("#logout").click(function() {
+            let token = window.localStorage.getItem("token");
+            $.ajax({
+                url: "http://127.0.0.1:3000/user/logout",
+                dataType: "text",
+                type: "GET",
+                // beforeSend: function(request) {
+                //     request.setRequestHeader("token",window.localStorage.getItem("token"));
+                // },
+                headers:{
+                    'Content-Type':'application/json;charset=utf8',
+                    "token": token
+                },
+                success(resp) {
+                    console.log(resp)
+                    console.log("退出成功")
+                },
+                error(resp) {
+                    console.log("failed");
+                    console.log(resp)
+                }
+            })
+            console.log("type" + typeof window.localStorage.getItem("token"));
+            console.log(window.localStorage.getItem("token"))
+            window.localStorage.removeItem("token");
+        })
+    </script>
+</body>
+</html>

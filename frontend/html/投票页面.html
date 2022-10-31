@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投票页面</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        * {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-image: url(../../images/壁纸3.jpg);
+    background-size: cover;
+}
+.box {
+  width: 1000px;
+  margin: 0 auto;
+}
+.box h1 {
+  padding: 40px 0;
+  text-align: center;
+}
+.box h2 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+.box div {
+  width: 45%;
+  float: left;
+  margin: 0 auto;
+  /* margin-right: 2%; */
+  padding: 10%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  /* margin-bottom: 40px; */
+}
+
+
+
+.box .forhim {
+  text-align: center;
+  display: block;
+  width: 100%;
+  background-color: #007acc;
+  color: #fff;
+  font-size: 30px;
+}
+
+</style>
+<body>
+    <div class="box to_be_appended" style="margin: 0 auto">
+        <h1>请选择你最喜欢的</h1>
+        <h1 style="color: red" id="error_msg"></h1>
+    </div>
+</body>
+
+<script>
+  let noptions = 0;
+  let data = [];
+  function getQueryVariable(variable){
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}
+  let channel_id = getQueryVariable("channel_id");
+  let vote_id = getQueryVariable("vote_id");
+  console.log("channel_id" + channel_id + " vote_id" + vote_id);
+  let token = window.localStorage.getItem("token")
+  function vote(id) {
+    console.log("vote")
+    $.ajax({
+      url: "http://127.0.0.1:3000/user/vote",
+      type: "GET",
+      headers:{
+        'Content-Type':'application/json;charset=utf8',
+        "token": token
+      },
+      data:{
+        id: id,
+      },
+      success(resp) {
+        console.log(resp)
+        if(resp.message == "投票成功"){
+          window.location.href ="投票成功.html"
+        } else {
+          $("#error_msg").text("投票失败，您已投过票!!")
+        }
+      },
+      error() {
+        console.log("error")
+      }
+    })
+  }
+  function getOptions() {
+    $.ajax({
+      url: "http://127.0.0.1:3000/free/getAllOption",
+      type: "GET",
+      data: {
+        channel_id: channel_id,
+        vote_id: vote_id,
+      },
+      success(resp){
+        console.log(resp)
+        data = resp.data;
+        noptions = data.length;
+        append_item();
+      }
+    })
+  }
+  getOptions();
+  function append_item() { 
+    let to_be_append = ``;
+    for (let i = 0; i < noptions; i ++) {
+      let id = data[i]["id"];
+      let count = data[i]["voteCount"];
+      to_be_append += `
+        <div calss="item">
+            <h2>${data[i]["name"]}</h2>
+            <div class="forhim" href="投票成功.html" style="margin-top: 15px;"  onclick="vote(`+id+`)">为他投票</div>
+            <h2 style="margin-top: 40px">得票数: ${count}</h2> 
+        </div>
+        `
+    }
+    $(".to_be_appended").append(to_be_append);
+  }
+</script>
+</html>

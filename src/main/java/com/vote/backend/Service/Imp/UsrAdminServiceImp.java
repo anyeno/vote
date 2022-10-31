@@ -127,10 +127,10 @@ public class UsrAdminServiceImp implements UsrAdminService {
 
 
     @Override
-    public CommonResult vote(OptionParam optionParam,String token) {
+    public CommonResult vote(int pid,String token) {
 
 
-        Options options=selectOptionsByName(optionParam);
+        Options options = optionsMapper.selectById(pid);
           if(Objects.isNull(options)){
               return CommonResult.Failed("该选项不存在",null);
           }
@@ -198,6 +198,7 @@ public class UsrAdminServiceImp implements UsrAdminService {
 
 
     /**字段类转为Pojo方法集*/
+
     public User selectUserByName(String name){
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("name",name);

@@ -31,18 +31,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
    @Autowired
    private AccessDeniedHandler accessDeniedHandler;
-   @Autowired
-   private AuthenticationEntryPoint authenticationEntryPoint;
+//   @Autowired
+//   private AuthenticationEntryPoint authenticationEntryPoint;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http    /**禁用csrf和session*/
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
 
                 .authorizeRequests()//管理请求
 //                .antMatchers("/free/login").permitAll()//.anonymous()//匿名访问-只有未登录状态下才能访问
-                .antMatchers("/free/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
 
         /**
@@ -56,11 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtAuthenticationTokenFilter,UsernamePasswordAuthenticationFilter.class);
 
         /**异常处理器*/
-        http.exceptionHandling()
-                //认证失败处理器
-                .authenticationEntryPoint(authenticationEntryPoint)
-                //授权失败处理器
-                .accessDeniedHandler(accessDeniedHandler);
+//        http.exceptionHandling()
+//                //认证失败处理器
+//                .authenticationEntryPoint(authenticationEntryPoint)
+//                //授权失败处理器
+//                .accessDeniedHandler(accessDeniedHandler);
 
 
     }

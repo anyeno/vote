@@ -100,7 +100,7 @@ public class AdminServiceImp implements AdminService {
 
         voteItem.setCreateTime(LocalDateTime.now());
         voteItem.setEndTime(
-                LocalDateTime.now().plusHours(voteParam.getDuring()));
+                LocalDateTime.now().plusHours((long)voteParam.getDuring()));
 
         voteItem.setPaused(false);
 
@@ -111,8 +111,8 @@ public class AdminServiceImp implements AdminService {
 
 
     @Override
-    public CommonResult deleteVote(VoteParam voteParam) {
-        VoteItem voteItem=usrAdminServiceImp.selectVoteItemByName(voteParam);
+    public CommonResult deleteVote(Integer id) {
+        VoteItem voteItem = voteItemMapper.selectById(id);
         if(Objects.isNull(voteItem)){
             return CommonResult.Failed("投票不存在，无需删除",null);
         }

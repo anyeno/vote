@@ -139,22 +139,18 @@
 - 用户投票/撤回
 
   ```
-  /user/vote Method:POST
+  /user/vote Method:GET
   参数：
   	Header	  :"token":token 
-      Body	  :"votename" :投票实体
-      			"channelName":频道名称
-      			"optionName":实体名称
+      Body	  :"id":频道实体id
   	 			
   返回：
   	code(200/404)
   
-  /user/vote_back Method:POST
+  /user/vote_back Method:GET
   参数：
   	Header	  :"token":token 
-  	Body	  :"votename" :投票实体
-      			"channelName":频道名称
-      			"optionName":实体名称
+  	 Body	  :"id":频道实体id
   返回：
   	成功：
   	code(200/404)
@@ -200,33 +196,31 @@
   	code(200/404)
   	 message：VoteItem实体
   
-  /admin/deleteVote Method:POST
+  /admin/deleteVote Method:GET
   参数：
   	Header	  :"token":token 
-      Body	  :"votename" :投票实体
-      			"channelName":频道名称
+      Body	  :"id" :投票实体id
   	 			
   返回：
   	成功：
   	code(200/404)
   ```
-
+  
 - 管理员暂停投票
 
   ```
-  /admin/deleteVote Method:POST
+  /admin/deleteVote Method:GET
   参数：
   	Header	  :"token":token 
-      Body	  :"votename" :投票实体
-      			"channelName":频道名称
+      Body	  :"id" :投票实体id
   	
   返回：code(200/404)
   	 message
   
   ```
-
   
-
+  
+  
 - 管理员新增/删除选项
 
   ```

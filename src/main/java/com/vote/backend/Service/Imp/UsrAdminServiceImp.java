@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -128,12 +130,21 @@ public class UsrAdminServiceImp implements UsrAdminService {
 
     @Override
     public CommonResult vote(int pid,String token) {
-
-
+        //选项是否存在
         Options options = optionsMapper.selectById(pid);
           if(Objects.isNull(options)){
               return CommonResult.Failed("该选项不存在",null);
           }
+        //是否过期
+        VoteItem voteItem=voteItemMapper.selectById(options.getVoteItemId());
+        if(LocalDateTime.now().isAfter(voteItem.getEndTime())){
+            return CommonResult.Failed("投票已过期","过期时间:"+voteItem.getEndTime().toString());
+        }
+        //是否暂停
+        if(voteItem.isPaused()){
+            return CommonResult.Failed("投票已暂停,目前无法投票",null);
+        }
+          //是否进行过投票
         Integer userid=null;
         try{
             //String转型
@@ -158,11 +169,22 @@ public class UsrAdminServiceImp implements UsrAdminService {
     }
 
     @Override
-    public CommonResult vote_back(OptionParam optionParam,String token) {
-        Options options=selectOptionsByName(optionParam);
+    public CommonResult vote_back(int pid,String token) {
+        //选项是否存在
+        Options options=optionsMapper.selectById(pid);
         if(Objects.isNull(options)){
             return CommonResult.Failed("该选项不存在",null);
         }
+        //是否过期
+        VoteItem voteItem=voteItemMapper.selectById(options.getVoteItemId());
+        if(LocalDateTime.now().isAfter(voteItem.getEndTime())){
+            return CommonResult.Failed("投票已过期","过期时间:"+voteItem.getEndTime().toString());
+        }
+        //是否暂停
+        if(voteItem.isPaused()){
+            return CommonResult.Failed("投票已暂停,目前无法投票",null);
+        }
+        //是否进行过投票
         Integer userid=null;
         try{
             //String转型

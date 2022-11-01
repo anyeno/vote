@@ -62,7 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                //授权失败处理器
 //                .accessDeniedHandler(accessDeniedHandler);
 
-
+        //SpringSecurity的允许跨域
+        http.cors();
     }
 
 

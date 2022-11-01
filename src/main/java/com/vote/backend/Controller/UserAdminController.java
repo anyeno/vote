@@ -22,10 +22,10 @@ public class UserAdminController {
     public CommonResult vote(@RequestHeader("token") String token,@RequestParam(value = "id")int id){
         return usrAdminService.vote(id,token);
     }
-    @PostMapping("/vote_back")
-    public CommonResult vote_back(@RequestHeader("token") String token,@RequestBody OptionParam optionParam){
+    @GetMapping ("/vote_back")
+    public CommonResult vote_back(@RequestHeader("token") String token,@RequestParam(value = "id")int id){
 
-        return usrAdminService.vote_back(optionParam,token);
+        return usrAdminService.vote_back(id,token);
     }
 
 }

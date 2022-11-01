@@ -16,5 +16,5 @@ public interface UsrAdminService {
 
     public CommonResult vote(int id,String token);
 
-    public CommonResult vote_back(OptionParam optionParam,String token);
+    public CommonResult vote_back(int id,String token);
 }

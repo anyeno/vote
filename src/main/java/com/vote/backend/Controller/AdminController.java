@@ -62,9 +62,9 @@ public class AdminController {
     public CommonResult deleteVote(@RequestParam(value = "id")Integer id){
         return adminService.deleteVote(id);
     }
-    @PostMapping("/pauseVote")
-    public CommonResult pauseVote(@RequestBody VoteParam voteParam){
-       return adminService.pauseVote(voteParam);
+    @GetMapping ("/pauseVote")
+    public CommonResult pauseVote(@RequestParam (value = "id")Integer id){
+       return adminService.pauseVote(id);
     }
 
 

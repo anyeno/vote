@@ -122,8 +122,9 @@ public class AdminServiceImp implements AdminService {
     }
 
     @Override
-    public CommonResult pauseVote(VoteParam voteParam) {
-        VoteItem voteItem=usrAdminServiceImp.selectVoteItemByName(voteParam);
+    public CommonResult pauseVote(Integer id) {
+
+        VoteItem voteItem=voteItemMapper.selectById(id);
         if(Objects.isNull(voteItem)){
             return CommonResult.Failed("投票不存在",null);
         }

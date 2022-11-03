@@ -81,7 +81,6 @@
 
         function create_option(){
             let option_name = []
-            let flag = 0
             for(let i = 1; i <= 4; i ++) {
                 option_name[i] = $("#v"+i.toString()).val().toString();
                 console.log(option_name[i]);
@@ -99,6 +98,9 @@
                     data: JSON.stringify(option_data),
                     success(resp){
                         console.log(resp)
+                        if(i == 4) {
+                         window.history.go(-1); //刷新上一页
+                        }
                     },
                     error(){
                         console.log("error");

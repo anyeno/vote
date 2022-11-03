@@ -2,10 +2,13 @@ package com.vote.backend.Controller;
 
 import com.vote.backend.Common.Result.CommonResult;
 import com.vote.backend.Model.Param.OptionParam;
+import com.vote.backend.Model.User;
 import com.vote.backend.Service.UsrAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -13,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserAdminController {
     @Autowired
     UsrAdminService usrAdminService;
+    @GetMapping("/getinfo")
+    public User getInfo(@RequestHeader("token") String token) {
+        return usrAdminService.getInfo(token);
+    }
     @GetMapping("/logout")
     public CommonResult logout(){
         return usrAdminService.logout();

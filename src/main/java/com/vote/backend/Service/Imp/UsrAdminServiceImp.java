@@ -17,10 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -125,6 +122,17 @@ public class UsrAdminServiceImp implements UsrAdminService {
 
     }
 
+    @Override
+    public User getInfo(String token) {
+        Map<String, String> res = new HashMap<>();
+        int id = 0;
+        try {
+            id = Integer.parseInt(jwtUtil.getId(token));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userMapper.selectById(id);
+    }
 
 
 

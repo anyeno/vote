@@ -19,6 +19,27 @@
     </div>
     <script type="text/javascript">
         let error_message = "";
+        function getinfo() {
+            $.ajax({
+                url: "http://127.0.0.1:3000/user/getinfo",
+                type: "GET",
+                headers: {
+                    token: window.localStorage.getItem("token")
+                },
+                success(resp) {
+                    console.log(resp)
+                    window.localStorage.setItem("username", resp.name)
+                    window.localStorage.setItem("isAdmin", resp.isAdmin)
+                    console.log(resp.name)
+                    console.log(resp.isAdmin)
+                    location.href = "index.html";
+
+                },
+                error() {
+                    console.log("Error")
+                }
+            })
+        }
         $("#but").click(function() {
             console.log("login")
             let username = $("#uname").val().toString();
@@ -38,7 +59,7 @@
                         $(".error_msg").text(error_message)
                     } else {
                         window.localStorage.setItem("token", resp.data.token)
-                        location.href = "index.html";
+                        getinfo();
                     }
                     
                 }

@@ -6,7 +6,7 @@
 	minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>频道选择界面</title>
 	<!--引入CSS代码-->
-	<link rel="stylesheet" type="text/css" href="../scr/css/index-4.css"/>
+	<link rel="stylesheet" type="text/css" href="../scr/css/index-3.css"/>
 	<!--引入Js代码-->
 	<script src="../scr/index.js"></script>
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
@@ -17,11 +17,11 @@
         <img src="../images/wuzi-L.jpg" alt="来投票吧" title="投票在下方啦 6-\>o/-9" width="235" height="150">
         <img src="../images/投票置顶.jpeg" alt="来投票吧" title="投票在下方啦 -\>o/-" width="800" height="150">
         <img src="../images/wuzi-R.jpg" alt="来投票吧" title="投票在下方啦 6-\>o/-9" width="235" height="150">
-        <div class="pop">
-            <a href="./管理增添频道.html">添加新频道</a>
-        </div>
+        
     </div>
-
+    <div class="pop">
+        <a class="add_new_channel" href="./管理增添频道.html" id="partfir">添加新频道</a>
+    </div>
 	<div class="lunbo">
 		<div class="content">
             <div class="channels">
@@ -34,11 +34,10 @@
         </div>
 	</div>
 </body>
-
     <script>
         let nchannels = 0;
         let data = [];
-        let item_per_page = 5;
+        let item_per_page = 10;
         function getChannels() {
             $.ajax({
                 url: "http://127.0.0.1:3000/free/getAllChannel",
@@ -64,8 +63,8 @@
                             <td>${j+1}</td>
                             <td>${name}</td>
                             <td >
-                                <button  type="button" style="background-color: coral; id="`+name+`" onclick="handle_delete('`+name+`')">删除</button>
-                                <button  type="button" style="background-color: darkred; id= "`+id+`" onclick="handle_enter('`+id+`')">进入频道</button>
+                                <button class="delete_channel" type="button" style="background-color: coral; color: black" id="`+name+`" onclick="handle_delete('`+name+`')">删除</button>
+                                <button  type="button" style="background-color: darkred; color: black" id= "`+id+`" onclick="handle_enter('`+id+`')">进入频道</button>
                             </td>
                         </tr>`)
                         // console.log(res)
@@ -97,6 +96,7 @@
                 )
                 $("#circle").append(`<li class="circle"></li>`)
             }
+            delete_delete()
         }
 
         function handle_delete(name) {
@@ -128,6 +128,15 @@
         function handle_enter(id) {
             console.log("id = " + id);
             window.location.href = "用户投票实体.html?" + id;
+        }
+        function delete_delete() {
+            if(window.localStorage.getItem("isAdmin") != "true")
+            {
+                $(".delete_channel").hide();
+                console.log("Are you sure you want to delete")
+                $(".add_new_channel").hide();
+            }
+            console.log(window.localStorage.getItem("isAdmin"))
         }
         
     </script>

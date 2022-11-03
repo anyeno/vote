@@ -5,6 +5,8 @@ import com.vote.backend.Model.Param.OptionParam;
 import com.vote.backend.Model.Param.UserParam;
 import com.vote.backend.Model.User;
 
+import java.util.Map;
+
 public interface UsrAdminService {
     public User registerUser(UserParam user);
 
@@ -14,7 +16,10 @@ public interface UsrAdminService {
 
     public User selectUserByName(String name);
 
-    public CommonResult vote(int id,String token);
+    User getInfo(String token);
+
+    public CommonResult vote(int id, String token);
 
     public CommonResult vote_back(int id,String token);
+
 }

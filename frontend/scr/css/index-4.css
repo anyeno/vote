@@ -15,31 +15,40 @@ a{
 li{
 	list-style: none;
 }
+    /* 主要变动 */
 .hat{
+    width: 1400px;
+	margin: auto;
+	margin-top: 20px;
     text-align: center;
+	background-color: rgba(230, 194, 18, 0.993);
+	opacity: 0.69;
+	border-top-left-radius: 36%;
+	border-top-right-radius: 36%;
 }
 .pop{
     width: 150px;
     height: 40px;
     padding-top: 15px;
-    margin-left: 1400px;
+    margin: auto;
     margin-bottom: -15px;
-    background-color: rgb(237, 7, 157);
+    background-color: rgba(216, 169, 14, 0.799);
+	border: 1px solid rgb(0, 0, 0);
     border-radius: 25%;
 }
-
+    /* 以上
+    index-3与index-4的pop类不一样 */
 .lunbo{
 	width: 100%;
 }
 .content{
-	width: 80vw;
-	height: 80vh;
+	width: 1400px;
+	height: 640px;
 	margin: 20px auto;
 	border: 1px solid rgba(216, 169, 14, 0.799);
 	background-color: rgb(45, 44, 44);
 	opacity: 0.69;
 	position: relative;
-	margin-bottom: 50px;
 }
 #item{
 	width: 100%;
@@ -50,8 +59,6 @@ li{
 	position: absolute;
 	opacity: 0;
 	transition: all 1s;
-	width: 100%;
-	height: 93%;
 }
 .item.active{
 	opacity:1;
@@ -127,41 +134,42 @@ li{
 }
 /* 增大分页区分度 */
 #A{
-    width: 100%;
-    height: 100%;
+    width: 1400px;
+    height: 600px;
     margin: auto;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     position: relative; 
     overflow: hidden;
-    opacity: 1;
+    opacity: 0.99;
 }
 #B{
     width: 1400px;
     height: 600px;
     margin: auto;
-    background-color: rgb(204, 213, 29);
+    background-color: rgb(133, 134, 129);
     position: relative; 
     overflow: hidden;
     opacity: 0.81;
 }
 /* 增大字体区分度 */
 #x{
-	font-size: 35px;
+	font-size: 30px;
 	color: rgba(245, 202, 8, 0.546);
 }
 #y{
-	font-size: 35px;
+	font-size: 30px;
 	color: rgb(57, 47, 2);
 }
 #z{
-	font-size: 30px;
+	font-size: 18px;/* 次要变动：字体与下方按钮格式 */
 	color: rgb(0, 0, 0);
 }
 /* 按钮 */
 button {
 	width: 120px;
 	height:60px;
-	font-size: 24px;
+	font-size: 18px;
+	color: rgb(255, 255, 255);
 	background-color: indianred;
 	padding: auto;
 	margin-left: 10px;

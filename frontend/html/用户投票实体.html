@@ -10,6 +10,14 @@
 	<!--引入Js代码-->
 	<script src="../scr/index.js"></script>
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .paused {
+            background-color: beige;
+        }
+        .timeout {
+            background-color: grey;
+        }
+    </style>
 </head>
 <body>
     <div class="hat">
@@ -17,13 +25,13 @@
         <img src="../images/wuzi-L.jpg" alt="来投票吧" title="投票在下方啦 6-\>o/-9" width="240" height="160">
         <img src="../images/投票置顶.jpeg" alt="来投票吧" title="投票在下方啦 -\>o/-" width="800" height="160">
         <img src="../images/wuzi-R.jpg" alt="来投票吧" title="投票在下方啦 6-\>o/-9" width="240" height="160">
-        <div class="pop">
-            <div  id="partfir">
-                <a href="./管理增添频道.html">添加新频道</a>
-            </div>
-            <div  id="partsec">
-                <a href="./管理新添投票.html">添加新投票</a>
-            </div>
+    </div>
+    <div class="pop">
+        <div class="add_new_channel"  id="partfir">
+            <a href="./管理增添频道.html">添加新频道</a>
+        </div>
+        <div class="add_new_vote" id="partsec">
+            <a  href="./管理新添投票.html">添加新投票</a>
         </div>
     </div>
 	<div class="lunbo">
@@ -97,21 +105,69 @@
             window.location.href = "投票页面.html?" + "channel_id="+id+"&vote_id="+vote_id;
         }
 
+        function pauseVote(vote_id) {
+            vote_id = parseInt(vote_id);
+            let token = window.localStorage.getItem("token");
+            $.ajax({
+                url: "http://127.0.0.1:3000/admin/pauseVote",
+                type: "GET",
+                beforeSend: function (xhr){ 
+                    xhr.setRequestHeader('token', token); 
+                    xhr.setRequestHeader('Content-Type', 'application/json;charset=utf8'); 
+                },
+                data: {
+                    id: vote_id
+                },
+                success(resp){
+                    console.log("success")
+                    console.log(resp)
+                    window.location.reload();
+                },
+                error(){
+                    console.log("error");
+                }
+            })
+        }
+
+        function convertDateFromString(dateString) { 
+            if (dateString) { 
+                var arr1 = dateString.split(" "); 
+                var sdate = arr1[0].split('-'); 
+                var date = new Date(sdate[0], sdate[1]-1, sdate[2]); 
+                return date;
+            } 
+        } 
+
+
         function votes_append() {
-            let item_per_page = 5;
+            let item_per_page = 10;
+            let nowTime = new Date();
             let num_pages = parseInt(nvotes / item_per_page + 1);
             console.log("num_pages" + num_pages);
             for (let i = 0; i < num_pages; i++) { 
                 let item = ``;
                 for(let j = 0; j < Math.min(item_per_page, nvotes - i*item_per_page); j++) {
                     let id = data[i*item_per_page + j]["id"];
-                        item += `<tr>
+                    let paused = data[i*item_per_page + j]["paused"]
+                    let endTime_s = data[i*item_per_page + j]["endTime"]
+                    let endTime = convertDateFromString(endTime_s);
+                    let classname = "normal"
+                    if(endTime < nowTime) {
+                        classname = "timeout";
+                    }
+                    else if (paused == true) {
+                        console.log("paused")
+                        classname = "paused"
+                    }
+                        item += `<tr class="${classname}">
                             <td>${j+1}</td>
                             <td>${data[i*item_per_page + j]["name"]}</td>
                             <td >
-                                <button  type="button" style="background-color: coral;" onclick="deleteVote(`+id+`)">删除</button>
+                                <button class="delete_vote" type="button" style="background-color: coral;" onclick="deleteVote(`+id+`)">删除</button>
                                 <button  type="button" style="background-color: darkred;" onclick="enterVote(`+id+`)">进入投票</button> 
                                 <button  type="button" style="background-color: lightseagreen;" onclick="enterVote(`+id+`)">查看</button>
+                                <button  class="timeout" type="button" style="background-color: coral; color: black" onclick="pauseVote(`+id+`)" >暂停/开始</button>
+
                             </td>
                         </tr>`
                 }
@@ -136,8 +192,19 @@
                 )
                 $("#circle").append(`<li class="circle"></li>`)
             }
-           
+           delete_delete()
         };
+        function delete_delete() {
+            if(window.localStorage.getItem("isAdmin") != "true")
+            {
+                $(".delete_vote").hide();
+                $(".add_new_vote").hide();
+                $(".add_new_channel").hide();
+                $(".timeout").hide();
+                console.log("Are you sure you want to delete")
+            }
+            console.log(window.localStorage.getItem("isAdmin"))
+        }
         
     </script>
 </html>

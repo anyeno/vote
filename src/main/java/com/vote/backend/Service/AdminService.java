@@ -6,6 +6,8 @@ import com.vote.backend.Model.Param.UserParam;
 import com.vote.backend.Model.Param.VoteParam;
 import com.vote.backend.Model.User;
 
+import java.util.Map;
+
 public interface AdminService {
     public User registerAdmin(UserParam user);
 
@@ -22,4 +24,5 @@ public interface AdminService {
     public CommonResult creatOption(OptionParam optionParam);
 
     public CommonResult deleteOption(OptionParam optionParam);
+
 }

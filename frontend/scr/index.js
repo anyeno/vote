@@ -44,7 +44,7 @@ window.onload=function(){
     //开始定时器，点击右边按钮，实现轮播
     timer=setInterval(function(){
         rightBtn.onclick();
-    },3000)
+    },0)
 
     //点击圆点时，跳转到对应图片
     for(var i=0;i<circles.length;i++){
